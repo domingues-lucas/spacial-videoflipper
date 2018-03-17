@@ -1,0 +1,43 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="container">
+  <div class="row">
+    <div class="col s12">
+      <h1>
+        {{ title }}!
+      </h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12">
+
+      <form action="#">
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>File</span>
+            <input type="file">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+          </div>
+        </div>
+      </form>
+
+      <div class="col-lg-5">
+          <div class="col-lg-6">
+              <div *ngIf="item">
+                  <p>Nome:{{item.name}}</p>
+              </div>
+              <p>Nome:{{item.name}}</p>
+          </div>
+      </div>
+
+      <div class="col-lg-12 form-group">
+        <input id="btnFrete" value="Retornar" class="btn btn-primary form-control" type="submit" (click)='CalcularItem()' />
+      </div>
+
+
+    </div>
+  </div>
+
+</div>
