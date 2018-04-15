@@ -1,43 +1,73 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div class="container">
-  <div class="row">
-    <div class="col s12">
-      <h1>
-        {{ title }}!
-      </h1>
-    </div>
-  </div>
+    <h1>Spacial Videoflipper</h1>
+    <form #musicForm="ngForm" novalidate> 
+        <table> 
+            <tr>  
+                <td>ID</td>  
+                <td>   
+                    <input disabled name="id" type="text" [(ngModel)]="id">  
+                </td>  
+            </tr>  
+            <tr>  
+                <td>Título</td>  
+                <td>   
+                    <input name="title" required type="text" [(ngModel)]="title">  
+                </td>  
+            </tr>  
+            <tr>  
+                <td>Artista</td>  
+                <td>    
+                    <input name="artist" required type="text" [(ngModel)]="artist" />
+                </td>  
+            </tr>  
+            <tr>  
+                <td>Albúm</td>  
+                <td>    
+                    <input name="album" required type="text" [(ngModel)]="album" />
+                </td>  
+            </tr> 
+            <tr>  
+                <td>Arquivo</td>  
+                <td>    
+                    <input name="file" required type="text" [(ngModel)]="file" />
+                </td>  
+            </tr> 
+            <tr>
+                <ng-container *ngIf="addOrEdit.action==='add'; else elseTemplate">
+                    <td colspan="2">
+                        <button (click)="add(musicForm.value)">Inserir Música</button>  
+                    </td>
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <td colspan="2" #elseTemplate>
+                        <button (click)="edit(musicForm.value)">Editar Música</button> 
+                        <button (click)="clear()">Sair da Edição</button>
+                    </td>
+                </ng-template>
+            </tr>  
+        </table>  
+    </form>  
+    
+    <hr>
 
-  <div class="row">
-    <div class="col s12">
-
-      <form action="#">
-        <div class="file-field input-field">
-          <div class="btn">
-            <span>File</span>
-            <input type="file">
-          </div>
-          <div class="file-path-wrapper">
-            <input class="file-path validate" type="text">
-          </div>
-        </div>
-      </form>
-
-      <div class="col-lg-5">
-          <div class="col-lg-6">
-              <div *ngIf="item">
-                  <p>Nome:{{item.name}}</p>
-              </div>
-              <p>Nome:{{item.name}}</p>
-          </div>
-      </div>
-
-      <div class="col-lg-12 form-group">
-        <input id="btnFrete" value="Retornar" class="btn btn-primary form-control" type="submit" (click)='CalcularItem()' />
-      </div>
-
-
-    </div>
-  </div>
-
+    <h4>Lista de Músicas</h4>
+    <table>  
+        <tr>  
+            <td>ID</td>  
+            <td>Título</td>  
+            <td>Artista</td>  
+            <td>Albúm</td>  
+            <td>Arquivo</td>  
+            <td colspan="2">Ações</td>   
+        </tr>  
+        <tr *ngFor="let music of musics">  
+            <td>{{music._id}}</td>  
+            <td>{{music.title}}</td>  
+            <td>{{music.artist}}</td> 
+            <td>{{music.album}}</td> 
+            <td>{{music.file}}</td>  
+            <td><a href="#edit" (click)="view(music)"><i class="material-icons">mode_edit</i></a></td>  
+            <td><a href="#delete" (click)="del(music._id)"><i class="material-icons">delete_forever</i></a></td>  
+        </tr>                                                            
+    </table> 
 </div>

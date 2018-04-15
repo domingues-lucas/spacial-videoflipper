@@ -1,28 +1,60 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';  
+import {FormGroup,FormControl,Validators,FormsModule, } from '@angular/forms';  
+import {CommonService} from './app.service';  
+   
+import {Http,Response, Headers, RequestOptions } from '@angular/http';   
+  
+@Component({  
+  selector: 'app-root',  
+  templateUrl: './app.component.html',  
+  styleUrls: ['./app.component.css']  
+})  
 
-import { Observable } from 'rxjs/Observable';
-import { Item } from 'app/Item';
-import { ItemService } from 'app/app.service';
+export class AppComponent {  
+    
+    constructor(private newService: CommonService) {   }  
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
-})
-export class AppComponent {
-  title = 'Spacial Videoflipper';
+    musics;
+    addOrEdit = { action: "add" };  
+    
+    ngOnInit() {    
+        this.newService.getMusic().subscribe(data => this.musics = data)  
+    }  
+    
+    add = function(music,isValid: boolean) {    
+        this.newService.addMusic(music).subscribe(data => {
+            this.ngOnInit();    
+        }, error => this.errorMessage = error )  
+    }   
+    
+    edit = function(music,isValid: boolean) {    
+        this.newService.editMusic(this.id, music).subscribe(data => {
+            this.ngOnInit();    
+        }, error => this.errorMessage = error )  
+    }  
 
-  item: Item;
-  name: string;
+    del = function(id) {  
+        this.newService.deleteMusic(id).subscribe(data => { 
+            this.ngOnInit();
+        }, error => this.errorMessage = error )   
+    }  
 
-  constructor(private _itemService: ItemService) {
+    view = function(music) {  
+        this.id = music._id;  
+        this.title = music.title;  
+        this.artist = music.artist; 
+        this.album = music.album; 
+        this.file = music.file; 
+        this.addOrEdit = { action: "edit" };
+    }  
 
-  }
-
-  CalcularItem(): void {
-      this._itemService.getItem(this.name)
-          .subscribe((data: Item) => this.item = data,
-          error => console.log(error));
-  }
-
-}
+    clear = function() {  
+        this.id = '';  
+        this.title = '';  
+        this.artist = ''; 
+        this.album = ''; 
+        this.file = ''; 
+        this.addOrEdit = { action: "add" };
+    } 
+    
+} 

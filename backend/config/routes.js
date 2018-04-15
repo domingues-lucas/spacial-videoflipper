@@ -1,5 +1,5 @@
 const express = require('express');
-const itemQuerys = require('../api/itens/itemQuerys');
+const musicQuerys = require('../api/musics/musicQuerys');
 
 module.exports = function(server) {
 
@@ -8,15 +8,10 @@ module.exports = function(server) {
   server.use('/api', router);
 
   //Registering API methods in router
-  const itemService = require('../api/itens/itemService');
-  itemService.register(router, '/item');
+  const musicService = require('../api/musics/musicService');
+  musicService.register(router, '/music');
 
   //Search's routes
-  router.get('/search-name/:name', itemQuerys.searchByName);
-
-  const bagService = require('../api/bag/bagService');
-  bagService.register(router, '/bag');
+  router.get('/search-title/:title', musicQuerys.searchByTitle);
 
 }
-
-  // require('../api/itens/itemRoutes')(router, itemQuerys);
