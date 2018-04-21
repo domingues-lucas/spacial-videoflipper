@@ -20,6 +20,7 @@
     "body-parser": "1.17.2",
     "cors": "^2.8.4",
     "express": "4.15.3",
+    "graceful-fs": "^4.1.11",
     "mongoose": "^4.13.12",
     "node-restful": "0.2.6"
   },

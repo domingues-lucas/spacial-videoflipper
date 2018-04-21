@@ -32,4 +32,9 @@ export class CommonService {
             .map((response: Response) =>response.json())             
     }  
 
+    getFile(){       
+        return this.http.get('http://localhost:4000/api/files')  
+        .map((response: Response) => response.json())              
+    } 
+
 } 

@@ -15,10 +15,12 @@ export class AppComponent {
     constructor(private newService: CommonService) {   }  
 
     musics;
+    files;
     addOrEdit = { action: "add" };  
     
     ngOnInit() {    
         this.newService.getMusic().subscribe(data => this.musics = data)  
+        this.newService.getFile().subscribe(data => this.files = data)  
     }  
     
     add = function(music,isValid: boolean) {    
