@@ -20,7 +20,7 @@ export class AppComponent {
     
     ngOnInit() {    
         this.newService.getMusic().subscribe(data => this.musics = data)  
-        this.newService.getFile().subscribe(data => this.files = data)  
+        this.newService.getFile().subscribe(data => this.files = data.html)  
     }  
     
     add = function(music,isValid: boolean) {    

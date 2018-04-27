@@ -12,8 +12,6 @@ module.exports = function(server) {
   musicService.register(router, '/music');
 
   const musicFileService = require('../api/musicsFiles/musicFileService');
-  //musicFileService.register(router, '/musicFile');
-
   router.get('/files', function (req, res, next) {
     res.send(musicFileService);
   });

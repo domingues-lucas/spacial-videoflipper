@@ -2,11 +2,8 @@
     <h1>Spacial Videoflipper</h1>
 
     <h4>Arquivos</h4>
-    <table>
-        <tr *ngFor="let file of files.files">  
-            <td><h5>{{file}}</h5><p>{{files.directory}}/{{file}}</p></td>  
-        </tr>  
-    </table>
+
+    <div [innerHTML]="files"></div>
 
     <form #musicForm="ngForm" novalidate> 
         <table> 
