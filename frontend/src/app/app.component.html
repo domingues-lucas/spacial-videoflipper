@@ -3,14 +3,50 @@
 
     <h4>Arquivos</h4>
 
-    <div [innerHTML]="files"></div>
+    <input type="file" name="music" ng2FileSelect [uploader]="uploader" />
+    <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+        Upload
+    </button>
+
+    <div [innerHTML]="filesStatus"></div>
+
+    <h4>Lista de Músicas</h4>
+    <table>  
+        <tr>  
+            <td>MD5</td>  
+            <td>ID</td>  
+            <td>Título</td>  
+            <td>Artista</td>  
+            <td>Albúm</td>  
+            <td>Arquivo</td>  
+            <td colspan="2">Ações</td>   
+        </tr>  
+        <tr *ngFor="let music of musics"> 
+            <td>{{music.md5}}</td>  
+            <td>{{music._id}}</td>  
+            <td>{{music.title}}</td>  
+            <td>{{music.artist}}</td> 
+            <td>{{music.album}}</td> 
+            <td>{{music.file}}</td>  
+            <td><a href="#edit" (click)="view(music)"><i class="material-icons">mode_edit</i></a></td>  
+            <td><a href="#delete" (click)="del(music._id)"><i class="material-icons">delete_forever</i></a></td>  
+        </tr>                                                            
+    </table> 
+
+    <hr>
 
     <form #musicForm="ngForm" novalidate> 
         <table> 
             <tr>  
+                <td>MD5</td>  
+                <td>   
+                    <input name="md5" type="text" [(ngModel)]="md5">  
+                </td>  
+            </tr>  
+            <tr>  
                 <td>ID</td>  
                 <td>   
-                    <input disabled name="id" type="text" [(ngModel)]="id">  
+                    <input name="id" type="text" [(ngModel)]="id">  
                 </td>  
             </tr>  
             <tr>  
@@ -52,27 +88,4 @@
             </tr>  
         </table>  
     </form>  
-    
-    <hr>
-
-    <h4>Lista de Músicas</h4>
-    <table>  
-        <tr>  
-            <td>ID</td>  
-            <td>Título</td>  
-            <td>Artista</td>  
-            <td>Albúm</td>  
-            <td>Arquivo</td>  
-            <td colspan="2">Ações</td>   
-        </tr>  
-        <tr *ngFor="let music of musics">  
-            <td>{{music._id}}</td>  
-            <td>{{music.title}}</td>  
-            <td>{{music.artist}}</td> 
-            <td>{{music.album}}</td> 
-            <td>{{music.file}}</td>  
-            <td><a href="#edit" (click)="view(music)"><i class="material-icons">mode_edit</i></a></td>  
-            <td><a href="#delete" (click)="del(music._id)"><i class="material-icons">delete_forever</i></a></td>  
-        </tr>                                                            
-    </table> 
 </div>

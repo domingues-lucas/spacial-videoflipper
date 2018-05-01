@@ -37,4 +37,9 @@ export class CommonService {
         .map((response: Response) => response.json())              
     } 
 
+    addID3(data){   
+        return this.http.post('http://localhost:4000/api/files/id3', data)  
+        .map((response: Response) => response.json())              
+    } 
+
 } 

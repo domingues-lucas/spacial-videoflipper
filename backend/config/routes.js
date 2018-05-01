@@ -16,6 +16,12 @@ module.exports = function(server) {
     res.send(musicFileService);
   });
 
+  const id3Service = require('../api/id3/id3Service');
+  router.post('/files/id3', id3Service);
+
+  const uploadService = require('../api/upload/uploadService');
+  router.post('/upload', uploadService);
+
   //Search's routes
   router.get('/search-title/:title', musicQuerys.searchByTitle);
 

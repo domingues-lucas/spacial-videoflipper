@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';  
-import {FormGroup,FormControl,Validators,FormsModule, } from '@angular/forms';  
-import {CommonService} from './app.service';  
-   
-import {Http,Response, Headers, RequestOptions } from '@angular/http';   
-  
+import { FormGroup,FormControl,Validators,FormsModule } from '@angular/forms';  
+import { CommonService} from './app.service';  
+import { Http,Response, Headers, RequestOptions } from '@angular/http';   
+import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
+
 @Component({  
   selector: 'app-root',  
   templateUrl: './app.component.html',  
@@ -12,15 +12,30 @@ import {Http,Response, Headers, RequestOptions } from '@angular/http';
 
 export class AppComponent {  
     
-    constructor(private newService: CommonService) {   }  
+    constructor(private newService: CommonService) {}  
+
+    public uploader:FileUploader = new FileUploader({url: 'http://localhost:4000/api/upload', itemAlias: 'music'});
 
     musics;
     files;
+    filesStatus = '';
     addOrEdit = { action: "add" };  
     
     ngOnInit() {    
         this.newService.getMusic().subscribe(data => this.musics = data)  
-        this.newService.getFile().subscribe(data => this.files = data.html)  
+        this.newService.getFile().subscribe(
+            data => {
+                this.files = data.json
+                // data.json.forEach(element => {
+                //     this.newService.addID3({'file': element}).subscribe(data => this.filesStatus += data.artist + ' - ' + data.album + ' - ' + data.title + '<br>')
+                // });
+            }
+        )  
+
+        this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+        this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
+            console.log("ImageUpload:uploaded:", item, status, response);
+        };
     }  
     
     add = function(music,isValid: boolean) {    
@@ -42,6 +57,7 @@ export class AppComponent {
     }  
 
     view = function(music) {  
+        this.md5 = music.md5;  
         this.id = music._id;  
         this.title = music.title;  
         this.artist = music.artist; 
@@ -57,6 +73,5 @@ export class AppComponent {
         this.album = ''; 
         this.file = ''; 
         this.addOrEdit = { action: "add" };
-    } 
-    
+    }     
 } 
