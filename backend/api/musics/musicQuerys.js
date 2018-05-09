@@ -12,5 +12,16 @@ const searchByTitle = (req, res, next) => {
     });
 };
 
-module.exports = { searchByTitle }
+const searchByMD5 = (req, res, next) => {
+    const urlParameter = req.params.md5;
+    Music.find({'md5' : urlParameter}, (err, music) => {
+        if (err) {
+            return handleError(err);
+        } else {
+            res.json(music);
+        }
+    });
+};
+
+module.exports = { searchByTitle, searchByMD5 }
 

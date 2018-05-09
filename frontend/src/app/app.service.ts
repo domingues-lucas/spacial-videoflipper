@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';   
-import {Http,Response, Headers, RequestOptions } from '@angular/http';   
+import { Http,Response, Headers, RequestOptions } from '@angular/http';   
 
 import { Observable } from 'rxjs/Observable';  
 import 'rxjs/add/operator/map';  
-import 'rxjs/add/operator/do';  
+import 'rxjs/add/operator/do'; 
 
 @Injectable()  
 export class CommonService {  
@@ -12,9 +12,9 @@ export class CommonService {
 
     constructor(private http: Http) { }  
 
-    addMusic(music){      
-        return this.http.post(this._Url, music)  
-        .map((response: Response) =>response.json())              
+    addMusic(music){  
+        return this.http.post(this._Url, music)
+            .map((response: Response) =>response.json())
     }  
 
     getMusic(){       

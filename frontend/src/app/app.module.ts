@@ -6,16 +6,19 @@ import { FormsModule } from '@angular/forms';
 
 import { FileSelectDirective } from 'ng2-file-upload';
 import { AppComponent } from './app.component';  
-import {CommonService} from './app.service';  
+import { CommonService} from './app.service';  
+import { MaterializeModule } from "angular2-materialize";
 
-  
 @NgModule({  
   declarations: [  
     AppComponent,
     FileSelectDirective
   ],  
   imports: [  
-    BrowserModule,HttpModule,FormsModule,  
+    BrowserModule,
+    HttpModule,
+    FormsModule,  
+    MaterializeModule
   ],  
   providers: [CommonService],  
   bootstrap: [AppComponent]  

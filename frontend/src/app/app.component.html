@@ -3,12 +3,23 @@
 
     <h4>Arquivos</h4>
 
-    <input type="file" name="music" ng2FileSelect [uploader]="uploader" />
+    <div class="file-field input-field">
+        <div class="btn">
+            <span>File</span>
+            <input type="file" name="music" ng2FileSelect [uploader]="uploader">
+        </div>
+        <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+        </div>
+    </div>
     <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
         Upload
     </button>
+    <button class="btn btn-success" (click)="scanMusicsDirectory()">Refresh Musics</button>
 
     <div [innerHTML]="filesStatus"></div>
+
+    <hr>
 
     <h4>Lista de Músicas</h4>
     <table>  
@@ -76,16 +87,29 @@
             <tr>
                 <ng-container *ngIf="addOrEdit.action==='add'; else elseTemplate">
                     <td colspan="2">
-                        <button (click)="add(musicForm.value)">Inserir Música</button>  
+                        <button class="btn btn-success" (click)="add(musicForm.value)">Inserir Música</button>  
                     </td>
                 </ng-container>
                 <ng-template #elseTemplate>
                     <td colspan="2" #elseTemplate>
-                        <button (click)="edit(musicForm.value)">Editar Música</button> 
-                        <button (click)="clear()">Sair da Edição</button>
+                        <button class="btn btn-success" (click)="edit(musicForm.value)">Editar Música</button> 
+                        <button class="btn btn-success" (click)="clear()">Sair da Edição</button>
                     </td>
                 </ng-template>
             </tr>  
         </table>  
-    </form>  
+    </form> 
+
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+        <div class="modal-content">
+            <h4>Música existente</h4>
+            <p>A música que você está tentando incluir já faz parte da biblioteca de músicas.</p>
+        </div>
+        <div class="modal-footer">
+            <a class="waves-effect waves-green btn-flat" (click)="closeModal()">Fechar</a>
+        </div>
+    </div>
+
 </div>

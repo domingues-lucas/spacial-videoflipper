@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';  
+import { Component, OnInit, EventEmitter } from '@angular/core';  
 import { FormGroup,FormControl,Validators,FormsModule } from '@angular/forms';  
 import { CommonService} from './app.service';  
-import { Http,Response, Headers, RequestOptions } from '@angular/http';   
+import { Http, Response, Headers, RequestOptions } from '@angular/http';   
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({  
   selector: 'app-root',  
@@ -12,25 +13,20 @@ import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 
 export class AppComponent {  
     
-    constructor(private newService: CommonService) {}  
+    constructor(
+        private newService: CommonService, 
+        private http: Http
+    ) {}  
 
     public uploader:FileUploader = new FileUploader({url: 'http://localhost:4000/api/upload', itemAlias: 'music'});
 
     musics;
     files;
-    filesStatus = '';
     addOrEdit = { action: "add" };  
     
-    ngOnInit() {    
+    ngOnInit() {
+        
         this.newService.getMusic().subscribe(data => this.musics = data)  
-        this.newService.getFile().subscribe(
-            data => {
-                this.files = data.json
-                // data.json.forEach(element => {
-                //     this.newService.addID3({'file': element}).subscribe(data => this.filesStatus += data.artist + ' - ' + data.album + ' - ' + data.title + '<br>')
-                // });
-            }
-        )  
 
         this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
         this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
@@ -38,10 +34,21 @@ export class AppComponent {
         };
     }  
     
-    add = function(music,isValid: boolean) {    
-        this.newService.addMusic(music).subscribe(data => {
-            this.ngOnInit();    
-        }, error => this.errorMessage = error )  
+    add = function(music: any,isValid: boolean) {
+
+        this.http.get('http://localhost:4000/api/search/md5/' + music.md5).map((response: Response) => response.json()).subscribe(data => {
+            if ( !data.length ) {
+                // this.newService.addMusic(music).subscribe(data => {
+                //     this.ngOnInit();    
+                // }, error => this.errorMessage = error ) 
+                console.log('Nova Música');
+            } else {
+                console.log('Música existente:' + data[0].title);
+                //this.openModal();
+            }
+        }) 
+
+         
     }   
     
     edit = function(music,isValid: boolean) {    
@@ -74,4 +81,29 @@ export class AppComponent {
         this.file = ''; 
         this.addOrEdit = { action: "add" };
     }     
+
+    scanMusicsDirectory = function() {
+        
+        this.filesStatus = '';
+        this.newService.getFile().subscribe(
+            data => {
+                data.json.forEach(element => {
+                    console.log(element);
+                    this.newService.addID3({'file': element}).subscribe(data => {
+                        this.filesStatus = data.artist + ' - ' + data.album + ' - ' + data.title + ' - ' + element +'<br>'
+                        data.file = element;
+                    })
+                });
+            }
+        )  
+    }
+
+    modalActions = new EventEmitter<string|MaterializeAction>();
+    openModal() {
+        this.modalActions.emit({action:"modal",params:['open']});
+    }
+    closeModal() {
+        this.modalActions.emit({action:"modal",params:['close']});
+    }
+
 } 

@@ -13,6 +13,7 @@ module.exports = function(server) {
 
   const musicFileService = require('../api/musicsFiles/musicFileService');
   router.get('/files', function (req, res, next) {
+    musicFileService.refresh();
     res.send(musicFileService);
   });
 
@@ -23,6 +24,7 @@ module.exports = function(server) {
   router.post('/upload', uploadService);
 
   //Search's routes
-  router.get('/search-title/:title', musicQuerys.searchByTitle);
+  router.get('/search/title/:title', musicQuerys.searchByTitle);
+  router.get('/search/md5/:md5', musicQuerys.searchByMD5);
 
 }
