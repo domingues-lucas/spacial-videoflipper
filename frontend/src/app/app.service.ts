@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';   
-import { Http,Response, Headers, RequestOptions } from '@angular/http';   
+import { Http, Response, Headers, RequestOptions } from '@angular/http';   
 
 import { Observable } from 'rxjs/Observable';  
 import 'rxjs/add/operator/map';  
@@ -34,6 +34,11 @@ export class CommonService {
 
     getFile(){       
         return this.http.get('http://localhost:4000/api/files')  
+        .map((response: Response) => response.json())              
+    } 
+
+    searchByMD5(md5){       
+        return this.http.get('http://localhost:4000/api/search/md5/' + md5)  
         .map((response: Response) => response.json())              
     } 
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';  
-import { FormGroup,FormControl,Validators,FormsModule } from '@angular/forms';  
+import { FormGroup, FormControl, Validators, FormsModule } from '@angular/forms';  
 import { CommonService} from './app.service';  
 import { Http, Response, Headers, RequestOptions } from '@angular/http';   
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
@@ -30,25 +30,27 @@ export class AppComponent {
 
         this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
         this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
-            console.log("ImageUpload:uploaded:", item, status, response);
+            // data.md5 = element.md5;
+            // data.file = item.file.name;
+            // this.add(data);
+            console.log("ImageUpload:", item, status, response);
         };
     }  
     
     add = function(music: any,isValid: boolean) {
 
-        this.http.get('http://localhost:4000/api/search/md5/' + music.md5).map((response: Response) => response.json()).subscribe(data => {
+        this.newService.searchByMD5(music.md5).subscribe(data => {
             if ( !data.length ) {
-                // this.newService.addMusic(music).subscribe(data => {
-                //     this.ngOnInit();    
-                // }, error => this.errorMessage = error ) 
-                console.log('Nova Música');
+                this.newService.addMusic(music).subscribe(data => {
+                    this.ngOnInit();    
+                }, error => this.errorMessage = error ) 
+                console.log('Nova Música: ' + data[0].title);
             } else {
-                console.log('Música existente:' + data[0].title);
+                console.log('Música existente: ' + data[0].title);
                 //this.openModal();
             }
         }) 
 
-         
     }   
     
     edit = function(music,isValid: boolean) {    
@@ -88,10 +90,11 @@ export class AppComponent {
         this.newService.getFile().subscribe(
             data => {
                 data.json.forEach(element => {
-                    console.log(element);
-                    this.newService.addID3({'file': element}).subscribe(data => {
-                        this.filesStatus = data.artist + ' - ' + data.album + ' - ' + data.title + ' - ' + element +'<br>'
-                        data.file = element;
+                    this.newService.addID3({'filePath': element.filePath}).subscribe(data => {
+                        data.md5 = element.md5;
+                        data.file = element.filePath;
+                        this.add(data);
+                        this.filesStatus += '<h5>' + data.artist + ' - ' + data.album + ' - ' + data.title + '</h5><p>' + element.filePath +'</p>';
                     })
                 });
             }

@@ -25,7 +25,6 @@
     <table>  
         <tr>  
             <td>MD5</td>  
-            <td>ID</td>  
             <td>Título</td>  
             <td>Artista</td>  
             <td>Albúm</td>  
@@ -34,7 +33,6 @@
         </tr>  
         <tr *ngFor="let music of musics"> 
             <td>{{music.md5}}</td>  
-            <td>{{music._id}}</td>  
             <td>{{music.title}}</td>  
             <td>{{music.artist}}</td> 
             <td>{{music.album}}</td> 
@@ -52,12 +50,6 @@
                 <td>MD5</td>  
                 <td>   
                     <input name="md5" type="text" [(ngModel)]="md5">  
-                </td>  
-            </tr>  
-            <tr>  
-                <td>ID</td>  
-                <td>   
-                    <input name="id" type="text" [(ngModel)]="id">  
                 </td>  
             </tr>  
             <tr>  
