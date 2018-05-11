@@ -37,6 +37,11 @@ export class CommonService {
         .map((response: Response) => response.json())              
     } 
 
+    deleteFile(data){       
+        return this.http.post('http://localhost:4000/api/files/delete/', data)  
+        .map((response: Response) => response.json())              
+    } 
+
     searchByMD5(md5){       
         return this.http.get('http://localhost:4000/api/search/md5/' + md5)  
         .map((response: Response) => response.json())              

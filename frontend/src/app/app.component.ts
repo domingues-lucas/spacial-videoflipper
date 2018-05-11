@@ -30,27 +30,40 @@ export class AppComponent {
 
         this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
         this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
-            // data.md5 = element.md5;
-            // data.file = item.file.name;
-            // this.add(data);
-            console.log("ImageUpload:", item, status, response);
+            this.add(JSON.parse(response));
+            console.log("Upload concluído: ", item);
         };
     }  
     
-    add = function(music: any,isValid: boolean) {
+    add = function(music: any) {
 
-        this.newService.searchByMD5(music.md5).subscribe(data => {
-            if ( !data.length ) {
-                this.newService.addMusic(music).subscribe(data => {
-                    this.ngOnInit();    
-                }, error => this.errorMessage = error ) 
-                console.log('Nova Música: ' + data[0].title);
-            } else {
-                console.log('Música existente: ' + data[0].title);
-                //this.openModal();
-            }
-        }) 
+        this.filesStatus = '';
 
+        this.newService.addID3(music).subscribe(data => {
+            data.md5 = music.md5;
+            data.filePath = music.filePath;
+            this.filesStatus += '<h5>' + data.artist + ' - ' + data.album + ' - ' + data.title + '</h5><p>' + data.filePath +'</p>';
+            this.checkMusic(data);
+        })
+
+        this.checkMusic = function (music) {
+            this.newService.searchByMD5(music.md5).subscribe(data => {
+                if ( !data.length ) {
+                    this.newService.addMusic(music).subscribe(data => {
+                        this.ngOnInit();    
+                    }, error => this.errorMessage = error ) 
+                    console.log('Nova Música: ' + music.title);
+                } else {
+                    if ( music.filePath !== data[0].filePath ) {
+                        this.newService.deleteFile(music).subscribe(data => {
+                            console.log(data);
+                        })
+                    } else {
+                        console.log('Música existente: ', music.filePath);
+                    }
+                }
+            }) 
+        }
     }   
     
     edit = function(music,isValid: boolean) {    
@@ -85,20 +98,11 @@ export class AppComponent {
     }     
 
     scanMusicsDirectory = function() {
-        
-        this.filesStatus = '';
-        this.newService.getFile().subscribe(
-            data => {
-                data.json.forEach(element => {
-                    this.newService.addID3({'filePath': element.filePath}).subscribe(data => {
-                        data.md5 = element.md5;
-                        data.file = element.filePath;
-                        this.add(data);
-                        this.filesStatus += '<h5>' + data.artist + ' - ' + data.album + ' - ' + data.title + '</h5><p>' + element.filePath +'</p>';
-                    })
-                });
-            }
-        )  
+        this.newService.getFile().subscribe( data => {
+            data.json.forEach(element => {
+                this.add(element);
+            })
+        })
     }
 
     modalActions = new EventEmitter<string|MaterializeAction>();

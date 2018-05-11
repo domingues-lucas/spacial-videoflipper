@@ -23,8 +23,9 @@ module.exports = function(server) {
   const uploadService = require('../api/upload/uploadService');
   router.post('/upload', uploadService);
 
-  //Search's routes
+
   router.get('/search/title/:title', musicQuerys.searchByTitle);
   router.get('/search/md5/:md5', musicQuerys.searchByMD5);
+  router.post('/files/delete', musicQuerys.deleteFile);
 
 }

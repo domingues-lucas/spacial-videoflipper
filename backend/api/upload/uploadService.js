@@ -1,4 +1,5 @@
 const multer = require('multer');
+const md5File = require('md5-file');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -19,7 +20,7 @@ function uploadService (req, res, next) {
             return res.status(422).send("an Error occured")
         }  
         path = req.file.path;
-        return res.send("Upload Completed for " + path); 
+        return res.json({'filePath': path, 'md5': md5File.sync(path)});
     });
 };
 
