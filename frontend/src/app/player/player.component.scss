@@ -1,0 +1,18 @@
+vg-player {
+    height: 55px;
+}
+
+#playlist {
+
+    li {
+        padding: 4px;
+
+        a {
+
+            &.track {
+                display: inline-block;
+                width: calc(100% - 40px);
+            }
+        }
+    }
+}

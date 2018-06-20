@@ -1,0 +1,52 @@
+<div class="panel-outer">
+    <div class="panel-inner">
+        <div id="player">
+            <div id="controls">
+                <vg-player (onPlayerReady)="onPlayerReady($event)">
+
+                    <vg-scrub-bar>
+                        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                    </vg-scrub-bar>
+
+                    <vg-controls>
+                        <vg-play-pause></vg-play-pause>
+
+                        <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+                        <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+
+                        <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+                        <vg-volume></vg-volume>
+
+                    </vg-controls>
+
+                    <audio #media
+                        [vgMedia]="media"
+                        [src]="currentItem.src"
+                        id="singleVideo"
+                        preload="auto"
+                        crossorigin>
+                    </audio>
+
+                </vg-player>
+            </div>
+
+            <div id="playlist">
+                <ul>
+                    <li *ngFor="let item of playlist; let $index = index"
+                        [class.selected]="item === currentItem" [class.hide]="$index === 0">
+                        <a class="track" href="#play" (click)="onClickPlaylistItem(item, $index)">
+                            <h5>{{ item.title }}</h5>  
+                            <p>
+                                {{ item.artist }}
+                            </p> 
+                        </a>
+                        <a class="actions" href="#remove" (click)="onClickRemovelistItem(item, $index)"><i class="material-icons right">delete_forever</i></a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>

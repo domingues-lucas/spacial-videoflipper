@@ -1,0 +1,14 @@
+<div class="panel-outer">
+    <div class="panel-inner">
+        <ul>  
+            <li *ngFor="let music of this.libraryService.musics"> 
+                <a href="#enqueue" (click)="enqueue(music.artist, music.title, music.filePath)">
+                    <h5>{{music.title}}</h5>  
+                    <p>
+                        {{music.artist}}
+                    </p> 
+                </a>
+            </li>                                                            
+        </ul> 
+    </div>
+</div>

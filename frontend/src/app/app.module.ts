@@ -1,26 +1,27 @@
-import { BrowserModule } from '@angular/platform-browser';  
 import { NgModule } from '@angular/core';   
-  
-import { HttpModule } from '@angular/http';  
-import { FormsModule } from '@angular/forms';  
 
-import { FileSelectDirective } from 'ng2-file-upload';
 import { AppComponent } from './app.component';  
-import { CommonService} from './app.service';  
-import { MaterializeModule } from "angular2-materialize";
+import { PlayerModule } from './player/player.module';
+import { UploadModule } from './upload/upload.module';
+import { LibraryModule } from './library/library.module';
+import { AppRoutingModule } from './/app-routing.module';
+import { HomeComponent } from './home/home.component';
+import { MenuComponent } from './menu/menu.component';
+
 
 @NgModule({  
   declarations: [  
-    AppComponent,
-    FileSelectDirective
+    AppComponent, HomeComponent, MenuComponent
   ],  
-  imports: [  
-    BrowserModule,
-    HttpModule,
-    FormsModule,  
-    MaterializeModule
+  imports: [    
+    PlayerModule,
+    UploadModule,
+    LibraryModule,
+    AppRoutingModule
   ],  
-  providers: [CommonService],  
-  bootstrap: [AppComponent]  
+  providers: [],  
+  bootstrap: [
+    AppComponent
+  ]  
 })  
 export class AppModule { }  

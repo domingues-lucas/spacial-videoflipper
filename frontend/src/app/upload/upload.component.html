@@ -1,0 +1,96 @@
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <h4>Arquivos</h4>
+
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>File</span>
+                    <input type="file" name="music" ng2FileSelect [uploader]="uploader">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+            <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                Upload
+            </button>
+
+            <div [innerHTML]="filesStatus"></div>
+
+            <hr>
+
+            <h4>Lista de Músicas</h4>
+            <button class="btn btn-success" (click)="scanMusicsDirectory()">Refresh Musics</button>
+            <table>  
+                <tr>  
+                    <td>MD5</td>  
+                    <td>Título</td>  
+                    <td>Artista</td>  
+                    <td>Albúm</td>  
+                    <td>Arquivo</td>  
+                    <td colspan="2">Ações</td>   
+                </tr>  
+                <tr *ngFor="let music of musics"> 
+                    <td>{{music.md5}}</td>  
+                    <td>{{music.title}}</td>  
+                    <td>{{music.artist}}</td> 
+                    <td>{{music.album}}</td> 
+                    <td>{{music.filePath}}</td>  
+                    <td><a href="#edit" (click)="view(music)"><i class="material-icons">mode_edit</i></a></td>  
+                    <td><a href="#delete" (click)="del(music._id)"><i class="material-icons">delete_forever</i></a></td>  
+                </tr>                                                            
+            </table> 
+
+            <hr>
+
+            <form #musicForm="ngForm" novalidate> 
+                <table> 
+                    <tr>  
+                        <td>MD5</td>  
+                        <td>   
+                            <input name="md5" type="text" [(ngModel)]="md5">  
+                        </td>  
+                    </tr>  
+                    <tr>  
+                        <td>Título</td>  
+                        <td>   
+                            <input name="title" required type="text" [(ngModel)]="title">  
+                        </td>  
+                    </tr>  
+                    <tr>  
+                        <td>Artista</td>  
+                        <td>    
+                            <input name="artist" required type="text" [(ngModel)]="artist" />
+                        </td>  
+                    </tr>  
+                    <tr>  
+                        <td>Albúm</td>  
+                        <td>    
+                            <input name="album" required type="text" [(ngModel)]="album" />
+                        </td>  
+                    </tr> 
+                    <tr>  
+                        <td>Arquivo</td>  
+                        <td>    
+                            <input name="file" required type="text" [(ngModel)]="file" />
+                        </td>  
+                    </tr> 
+                    <tr>
+                        <ng-container *ngIf="addOrEdit.action==='add'; else elseTemplate">
+                            <td colspan="2">
+                                <button class="btn btn-success" (click)="add(musicForm.value)">Inserir Música</button>  
+                            </td>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <td colspan="2" #elseTemplate>
+                                <button class="btn btn-success" (click)="edit(musicForm.value)">Editar Música</button> 
+                                <button class="btn btn-success" (click)="clear()">Sair da Edição</button>
+                            </td>
+                        </ng-template>
+                    </tr>  
+                </table>  
+            </form>
+        </div>
+    </div>
+</div>
