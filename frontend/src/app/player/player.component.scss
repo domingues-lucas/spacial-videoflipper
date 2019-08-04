@@ -1,5 +1,30 @@
 vg-player {
-    height: 55px;
+    height: 70px;
+
+
+
+    vg-scrub-bar-current-time,
+    vg-scrub-bar {
+        height: 100%;
+        top: 0;
+    }
+
+    vg-controls {
+        height: 100%;
+        background: none;
+        padding-top: 10px;
+        font-size: 30px;
+    }
+        
+
+}
+
+#player {
+
+    #controls {
+    
+    }
+    
 }
 
 #playlist {

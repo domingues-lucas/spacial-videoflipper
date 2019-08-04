@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { LibraryService } from '../library/library.service'; 
+import { LibraryService } from '../library/library.service';
 import { UploadService } from '../upload/upload.service';
 
 @Component({
@@ -18,9 +18,9 @@ export class MenuComponent implements OnInit {
     ngOnInit() {
     }
 
-    filterByArtist(query) {
+    filter(query) {
         document.querySelector('.screen-overlay').classList.add('hide');
-        this.newService.getMusic(query).subscribe(data => this.libraryService.musics = data)
+        this.newService.getMusic(query).subscribe(data => this.libraryService.musics = data);
     }
 
     showScreenOverlay() {

@@ -41,9 +41,9 @@ a {
   color: $secondary;
 }
 
-button {    
-    background: none;
-    border: 0;
+.btn {    
+    background-color: transparent;
+    border: 2px solid $secondary;
 
     &:hover {
         background-color: $thirty;
@@ -63,7 +63,7 @@ button {
 }
 
 .container, .container-fluid {
-  padding-top: 16px;
+  padding: 8px;
 }
 
 .panel-outer {
@@ -72,7 +72,6 @@ button {
 
 .panel-inner {
   height: 100%;
-  padding: 16px;
   border: 1px double $secondary;
 
   h5 {
@@ -121,12 +120,20 @@ button {
 vg-player {
   height: 55px;
 
-  vg-volume {
+	vg-volume {
 
-      .volumeKnob {
-          display: none !important;
-      }
-  }
+		.volumeKnob {
+			display: none !important;
+		}
+	}
+
+	vg-scrub-bar-current-time {
+
+		.background {
+			background-color: orange;
+		}
+		
+	}
   
 }
 
@@ -137,15 +144,16 @@ vg-player {
 
 #menu {
 
-    button {
+    .btn {
         width: 100%;
         height: 75px;
         border: 1px solid $secondary;
         text-align: center;
         line-height: 75px;
+        padding: 0;
 
         .material-icons {
-            font-size: 40px;
+            font-size: 30px;
             vertical-align: middle;
         }
     }
@@ -172,19 +180,17 @@ vg-player {
 /***** FILTRO POR LETRA INICIAL DAS MÚSICAS */
 /*-----------------------------------------------------------------------*/
 
-#index-musics {
-    text-align: center;
+.filter {
 
-    li {
-        display: inline-block;
-        width: 20%;
-        height: 75px;
-        margin-bottom: 6px;
-    }
+    &.letters {
+        text-align: center;
 
-    button {
-        border: 1px solid $secondary;
-        width: 100%;
-        height: 100%;
+        .btn {
+            width: 23%;
+            height: 11vh;
+            margin-bottom: 6px;
+            font-size: 4vw;
+        }
     }
+    
 }
