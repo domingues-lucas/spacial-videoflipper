@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import {VgAPI} from 'videogular2/core';
+import {VgAPI} from 'videogular2/compiled/core';
 import { PlayerService } from './player.service';
 
 export interface IMedia {
